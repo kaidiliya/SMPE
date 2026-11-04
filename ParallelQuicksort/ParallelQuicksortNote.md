@@ -210,4 +210,104 @@ On my laptop (i5-1340P, 16 logical CPUs, gcc 15.2, -O0) the claim that the paral
 
 Limitations: only one machine, only `-O0`, only sizes up to 3,000,000.
 
-Next: repeat on my groupmate's machine, and try `-O2`.
+Next: repeat on my groupmate's (Tom Laucournet) machine 
+
+
+## Bigger sizes (after discussion with my groupmate)
+
+After discuss with groupmate, he thinks that my design of experiments needs bigger size, because so far parallel version has no advantages. Maybe the parallel version only wins when the array is much bigger. So I will try with bigger size.
+
+### Experiment 5: much bigger sizes (run_benchmarking_bigsize.sh)
+
+Main change in the code: sizes up to 10,000,000, 5 repetitions, fixed order. I ran this script two times (Test 1, Test 2).
+
+```bash
+touch $OUTPUT_FILE
+for i in 100 1000 10000 100000 1000000 10000000 ; do
+for rep in `seq 1 5`; do
+echo "Size: $i" >> $OUTPUT_FILE;
+./src/parallelQuicksort $i >> $OUTPUT_FILE;
+done ;
+done
+```
+
+### Experiment 6: much bigger sizes with more reps and random order (run_benchmarking_bigsizewithall.sh)
+
+Main change in the code: sizes up to 10,000,000, 30 repetitions, random order. I ran this script one time.
+
+```bash
+touch $OUTPUT_FILE
+for i in 100 1000 10000 100000 1000000 10000000 ; do
+for rep in `seq 1 30`; do
+echo $i
+done
+done | shuf | while read i; do
+echo "Size: $i" >> $OUTPUT_FILE;
+./src/parallelQuicksort $i >> $OUTPUT_FILE;
+done
+```
+
+### Experiment 7: 100,000,000 integers (run_benchmarking_bigbigsize.sh)
+
+Main change in the code: one more size, 100,000,000 integers (400 MB for one array), 5 repetitions, fixed order. I ran this script one time. I did not do 30 repetitions here, because 30 repetitions would take too long.
+
+```bash
+touch $OUTPUT_FILE
+for i in 100 1000 10000 100000 1000000 10000000 100000000 ; do
+for rep in `seq 1 5`; do
+echo "Size: $i" >> $OUTPUT_FILE;
+./src/parallelQuicksort $i >> $OUTPUT_FILE;
+done ;
+done
+```
+
+The data are in `data/liya_2026-11-04_big`, the analysis script is `scripts/analyze_big.R` same figures as before: three programs in one panel, time in seconds, log scales.
+
+### Results of the bigger sizes
+
+Experiment 5 (up to 10M, 5 repetitions, fixed order):
+
+![bigger sizes](data/liya_2026-11-04_big/fig6_big_sizes.png)
+
+Experiment 6 (up to 10M, 30 repetitions, random order):
+
+![bigger sizes all changes](data/liya_2026-11-04_big/fig7_big_all_changes.png)
+
+Experiment 7 (up to 100M, 5 repetitions, fixed order):
+
+![huge sizes](data/liya_2026-11-04_big/fig8_huge_sizes.png)
+
+Parallel time / sequential time (from analysis_big_output.txt):
+
+| size | Exp 5 Test 1 | Exp 5 Test 2 | Exp 6 | Exp 7 |
+|---|---|---|---|---|
+| 100 | 352 | 375 | 459 | 434 |
+| 1,000 | 115 | 110 | 119 | 122 |
+| 10,000 | 20.5 | 20.2 | 20.3 | 19.4 |
+| 100,000 | 4.0 | 3.6 | 3.3 | 3.5 |
+| 1,000,000 | 2.4 | 3.2 | 3.3 | 3.4 |
+| 10,000,000 | 2.5 | 2.9 | 3.0 | 3.0 |
+| 100,000,000 | - | - | - | 2.3 |
+
+Average width of the 95% CI (% of the mean): Experiment 5 12.4, Experiment 6 3.8, Experiment 7 9.3.
+
+### Observations of the bigger sizes
+
+- The parallel version is still slower at every size, also at 10,000,000 and at 100,000,000. So bigger size alone does not make the parallel version faster on my laptop.
+- The ratio becomes smaller when the size is bigger: about 3.3 at 1,000,000, about 3.0 at 10,000,000 and 2.3 at 100,000,000. But the 100,000,000 point is only one run with 5 repetitions, and the sequential times of the 5 repetitions are quite different. So I think it is a trend, but not a proof.
+
+- My groupmate (Tom) looked at my curves and said that after about 10^6 the sequential and the parallel curves become parallel, so it seems that my computer stops gaining parallel performance, while on his machine the two curves are the same as mine until 10^6, but after that his parallel curve continues to improve and gets closer to the sequential one. On a log-log figure two parallel lines mean that the ratio is constant, so his remark is consistent with my numbers. I do not know why yet. Possible reasons (not tested):
+  - the parallel version uses only a few cores on my laptop,
+  - the memory (bandwidth, cache) is the limit and not the CPU,
+  - his machine has a different CPU or different compile flags.
+
+
+## Conclusion and limitations
+
+On my laptop the claim that the parallel version saves time is not supported: it was slower at every size I tested, even up to 100,000,000 integers. 
+
+The ratio parallel / sequential goes down slowly with the size, about 3.3 at 1M, 3.0 at 10M, 2.3 at 100M, so I cannot say that the parallel version will never win at bigger sizes, but I did not test it.
+
+Limitations: only sizes up to 100,000,000 and only one run and 5 repetitions at this biggest size.
+
+
