@@ -26,5 +26,7 @@ Homework on the Parallel Quicksort project (folder `ParallelQuicksort/`): re-run
 
 The scripts, raw data (`.txt`, `.csv`) and the R analysis (`scripts/analyze.R` and `scripts/analyze_big.R`) are in my fork of the project: https://github.com/kaidiliya/M2R-ParallelQuicksort
 
+Teammate: Tom Laucournet's repository: https://github.com/tomlcn/M2R-ParallelQuicksort
+
 Main result: on my laptop (i5-1340P, 16 logical CPUs, gcc 15.2, `-O0`) the parallel version was slower than the sequential one at every size tested. 
-My groupmate (Tom Laucournet) noticed that on my laptop the sequential and parallel curves become parallel after about 10^6, so the parallel version does not gain more on my machine; the reason is not tested yet .
+My teammate (Tom Laucournet) noticed that on my laptop the sequential and parallel curves become parallel after about 10^6, so the parallel version does not gain more on my machine; the reason is not tested yet .
