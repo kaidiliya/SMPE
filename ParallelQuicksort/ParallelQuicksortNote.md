@@ -393,8 +393,12 @@ Limitations: the two extrapolations give very different sizes, so extrapolating 
 
 ## Final conclusion
 
-The claim "the parallel version saves time" depends on the computer. On Tom's computer and on my friend's computer, the parallel version is faster for big arrays (around 10,000,000 integers). On my computer it is slower at every size, with my code and with Tom's code. So the problem comes from my computer, not from the code.
+The claim "the parallel version saves time" depends on the size and on the computer.
 
-When we say that a program is faster, we should always say on which computer and with which settings we measured it.
+The size is important: on Tom's computer and on my friend's computer, the parallel version is slower for small arrays and faster for big arrays (around 10,000,000 integers).
+
+The computer is also important: on my computer it is slower at every size, with my code and with Tom's code. So the problem comes from my computer, not from the code.
+
+When we say that a program is faster, we should always say for which sizes, on which computer and with which settings we measured it.
 
 The extrapolation shows that on my laptop the parallel version would need an array much bigger than my memory to become faster, so in practice it will not be faster on my laptop.
