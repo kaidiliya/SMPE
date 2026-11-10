@@ -151,23 +151,23 @@ In every figure below: x axis = array size (number of integers to sort), y axis 
 
 ### Original (5 sizes, 5 repetitions, fixed order)
 
-![original](data/liya_2026-11-04/fig1_original.png)
+![original](fig1_original.png)
 
 ### More sizes (10 sizes, 5 repetitions, fixed order)
 
-![more sizes](data/liya_2026-11-04/fig2_more_sizes.png)
+![more sizes](fig2_more_sizes.png)
 
 ### More repetitions (5 sizes, 30 repetitions, fixed order)
 
-![more repetitions](data/liya_2026-11-04/fig3_more_reps.png)
+![more repetitions](fig3_more_reps.png)
 
 ### Random order (5 sizes, 5 repetitions, random order)
 
-![random order](data/liya_2026-11-04/fig4_random_order.png)
+![random order](fig4_random_order.png)
 
 ### All changes (10 sizes, 30 repetitions, random order)
 
-![all changes](data/liya_2026-11-04/fig5_all_changes.png)
+![all changes](fig5_all_changes.png)
 
 ### Parallel time / sequential time (from analysis_output.txt)
 
@@ -243,15 +243,15 @@ The data are in `data/liya_2026-11-04_big`, the analysis script is `scripts/anal
 
 Experiment 5 (up to 10M, 5 repetitions, fixed order):
 
-![bigger sizes](data/liya_2026-11-04_big/fig6_big_sizes.png)
+![bigger sizes](fig6_big_sizes.png)
 
 Experiment 6 (up to 10M, 30 repetitions, random order):
 
-![bigger sizes all changes](data/liya_2026-11-04_big/fig7_big_all_changes.png)
+![bigger sizes all changes](fig7_big_all_changes.png)
 
 Experiment 7 (up to 100M, 5 repetitions, fixed order):
 
-![huge sizes](data/liya_2026-11-04_big/fig8_huge_sizes.png)
+![huge sizes](fig8_huge_sizes.png)
 
 Parallel time / sequential time (from analysis_big_output.txt):
 
@@ -349,7 +349,7 @@ My friend's computer is older and has only 2 cores (4 threads), but the parallel
 
 At first the confidence intervals were not visible in my plots, because they are too small on a log scale. So I made one more figure that shows them: only 1,000,000 integers, Test 1 of each experiment.
 
-![confidence interval](data/liya_2026-11-04/fig_ci_dots.png)
+![confidence interval](fig_ci_dots.png)
 
 Figure: every repetition (grey dot), the mean (red diamond) and its 95% confidence interval (red bar), for 1,000,000 integers, Test 1 of each experiment. With 5 repetitions a single slow run can stretch the interval a lot (for example the built-in qsort in "More sizes"). With 30 repetitions the interval is much shorter, so the mean is more reliable. Each row has its own y axis, so compare bar lengths only within a row.
 
